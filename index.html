@@ -10,167 +10,218 @@
     
   <body>
   <div class="app">
-  <section class="screen active" id="coverScreen">
-    <div class="brand-row">
-      <div class="fake-logo">UNA</div>
-      <div class="brand-title">⚡ ElectroLab ⚡</div>
-      <div class="fake-logo">MFCI</div>
-    </div>
 
-    <div class="cover">
-      <div class="glass-card">
-        <h1>ElectroLab</h1>
-        <p>Laboratorio Virtual de Circuitos Eléctricos</p>
+  <header class="hero">
+    <div class="hero-text">
+      <h1>🧲 MagnetoLab</h1>
+      <p>Laboratorio Virtual de Electromagnetismo</p>
 
-        <div class="institution">
-          <p>Universidad Nacional del Altiplano – Puno</p>
-          <p>Facultad de Ciencias de la Educación</p>
-          <p>Escuela Profesional de Educación Secundaria</p>
-          <p>Especialidad: Matemática, Física, Computación e Informática</p>
-        </div>
+      <div class="institution">
+        <p>Universidad Nacional del Altiplano – Puno</p>
+        <p>Facultad de Ciencias de la Educación</p>
+        <p>Escuela Profesional de Educación Secundaria</p>
+        <p>Especialidad: Matemática, Física, Computación e Informática</p>
+      </div>
 
-        <h2>Desarrollado por:</h2>
-        <h3>Liz Gabriela Chambi Apaza</h3>
+      <div class="author">
+        <p>Desarrollado por:</p>
+        <h2>Liz Gabriela Chambi Apaza</h2>
         <p>Curso: Física III</p>
-
-        <button id="startBtn">⚡ Ingresar al laboratorio</button>
-      </div>
-
-      <div class="helper">
-        <div class="scientist">👩🏻‍🔬</div>
-        <div class="bubble">¡Hola! Observa, modifica y compara circuitos en serie y paralelo.</div>
       </div>
     </div>
-  </section>
 
-  <section class="screen" id="menuScreen">
-    <header>
-      <h1>⚡ ElectroLab</h1>
-      <p>Selecciona el laboratorio que deseas explorar</p>
-    </header>
+    <div class="hero-visual">
+      <div class="hero-magnet">
+        <span>N</span>
+        <span>S</span>
+      </div>
+      <p>Corriente eléctrica ↔ campo magnético</p>
+    </div>
+  </header>
 
-    <div class="menu-cards">
-      <div class="menu-card blue">
-        <h2>Circuito en Serie</h2>
-        <p>Un solo camino para la corriente.</p>
-        <div class="mini">🔋 ─ R1 ─ R2 ─ 💡</div>
-        <button class="openLab" data-target="seriesScreen">Entrar</button>
+  <main class="labs">
+
+    <!-- LABORATORIO 1 -->
+    <section class="lab-card" id="lab-oersted">
+      <div class="lab-title">
+        <span>1</span>
+        <h2>Campo magnético generado por una corriente</h2>
       </div>
 
-      <div class="menu-card green">
-        <h2>Circuito en Paralelo</h2>
-        <p>Varios caminos para la corriente.</p>
-        <div class="mini">🔋 ┬ R1💡<br> ├ R2💡<br> └ R3💡</div>
-        <button class="openLab" data-target="parallelScreen">Entrar</button>
-      </div>
-    </div>
-  </section>
+      <div class="lab-content">
 
-  <section class="screen" id="seriesScreen">
-    <div class="topbar">
-      <button class="backBtn">← Volver</button>
-      <h1>Laboratorio: Circuito en Serie</h1>
-    </div>
+        <div class="experiment-stage oersted-stage">
 
-    <main class="lab-grid">
-      <section class="circuit-panel">
-        <div class="circuit series-circuit">
-          <div class="battery">🔋</div>
-          <div class="wire rectangle"></div>
-          <div id="seriesComponents" class="series-components"></div>
-          <div class="bulb-box" id="seriesBulbBox">
-            <div class="bulb" id="seriesBulb">💡</div>
-            <div id="seriesBrightness" class="brightness-text">Brillo: 0%</div>
-            <div class="brightness-bar"><div id="seriesFill" class="brightness-fill"></div></div>
+          <div class="power-supply">
+            <h3>FUENTE DC</h3>
+            <div class="display"><span id="currentDisplay">5.0</span> A</div>
+            <div class="terminal black"></div>
+            <div class="terminal red"></div>
           </div>
-          <button class="switch" id="seriesSwitch">OFF</button>
-        </div>
-      </section>
 
-      <aside class="controls-panel">
-        <h2>Controles</h2>
-        <label>Voltaje</label>
-        <input type="number" id="seriesVoltage" value="18" min="1">
-        <label>Nueva resistencia Ω</label>
-        <input type="number" id="seriesNewValue" value="10" min="1">
-        <button id="addSeries">+ Agregar resistencia</button>
-        <button id="clearSeries">Limpiar circuito</button>
-      </aside>
+          <div class="switch-box" id="switchBox">
+            <div class="switch-light"></div>
+            <p id="switchText">ON</p>
+          </div>
 
-      <section class="meters-panel">
-        <div class="meter-card">
-          <h3>Amperímetro</h3>
-          <div class="gauge"><div class="needle" id="seriesAmpNeedle"></div><span>A</span></div>
-          <p id="seriesAmpText">0.000 A</p>
-        </div>
+          <div class="wire-red wire-red-1"></div>
+          <div class="wire-red wire-red-2"></div>
+          <div class="wire-black wire-black-1"></div>
+          <div class="wire-black wire-black-2"></div>
 
-        <div class="meter-card">
-          <h3>Voltímetro</h3>
-          <div class="gauge"><div class="needle" id="seriesVoltNeedle"></div><span>V</span></div>
-          <p id="seriesVoltText">0.00 V</p>
-        </div>
+          <div class="support support-left"></div>
+          <div class="support support-right"></div>
 
-        <div class="data-card">
-          <h3>Datos</h3>
-          <p>Req: <b id="seriesReq">0 Ω</b></p>
-          <p>Corriente: <b id="seriesCurrent">0 A</b></p>
-          <p>Potencia: <b id="seriesPower">0 W</b></p>
-          <p>En serie: <b>Req = R1 + R2 + ...</b></p>
-        </div>
-      </section>
-    </main>
-  </section>
+          <div class="main-wire" id="mainWire"></div>
+          <div class="wire-label">CONDUCTOR RECTO</div>
+          <div class="current-arrow" id="currentArrow">I →</div>
 
-  <section class="screen" id="parallelScreen">
-    <div class="topbar">
-      <button class="backBtn">← Volver</button>
-      <h1>Laboratorio: Circuito en Paralelo</h1>
-    </div>
+          <div class="field-rings" id="fieldRings">
+            <div class="ring ring1"></div>
+            <div class="ring ring2"></div>
+            <div class="ring ring3"></div>
+          </div>
 
-    <main class="lab-grid">
-      <section class="circuit-panel">
-        <div class="circuit parallel-circuit">
-          <div class="battery">🔋</div>
-          <div class="rail left"></div>
-          <div class="rail right"></div>
-          <div id="parallelBranches" class="parallel-branches"></div>
-          <button class="switch" id="parallelSwitch">OFF</button>
-        </div>
-      </section>
+          <div class="compass">
+            <div class="compass-face">
+              <span class="north-label">N</span>
+              <span class="south-label">S</span>
+              <span class="east-label">E</span>
+              <span class="west-label">O</span>
+              <div class="compass-needle" id="compassNeedle"></div>
+            </div>
+            <p>BRÚJULA</p>
+          </div>
 
-      <aside class="controls-panel">
-        <h2>Controles</h2>
-        <label>Voltaje</label>
-        <input type="number" id="parallelVoltage" value="18" min="1">
-        <label>Nueva rama Ω</label>
-        <input type="number" id="parallelNewValue" value="10" min="1">
-        <button id="addParallel">+ Agregar rama</button>
-        <button id="clearParallel">Limpiar ramas</button>
-      </aside>
+          <div class="right-hand">
+            <div class="hand-icon">👍</div>
+            <h3>Regla de la mano derecha</h3>
+            <p><b>Pulgar:</b> corriente eléctrica</p>
+            <p><b>Dedos:</b> campo magnético</p>
+          </div>
 
-      <section class="meters-panel">
-        <div class="meter-card">
-          <h3>Amperímetro total</h3>
-          <div class="gauge"><div class="needle" id="parallelAmpNeedle"></div><span>A</span></div>
-          <p id="parallelAmpText">0.000 A</p>
         </div>
 
-        <div class="meter-card">
-          <h3>Voltímetro</h3>
-          <div class="gauge"><div class="needle" id="parallelVoltNeedle"></div><span>V</span></div>
-          <p id="parallelVoltText">0.00 V</p>
+        <aside class="control-panel">
+          <h3>CONTROLES</h3>
+
+          <label>Corriente eléctrica (I)</label>
+          <input type="range" id="currentInput" min="0" max="10" step="0.1" value="5">
+          <p><b id="currentValue">5.0 A</b></p>
+
+          <label>Altura del cable</label>
+          <input type="range" id="wireHeight" min="0" max="100" value="45">
+          <p><b id="heightValue">2.0 cm</b></p>
+
+          <button id="togglePower">Encender / Apagar</button>
+          <button id="reverseCurrent">Invertir corriente</button>
+
+          <div class="data-box">
+            <h4>DATOS</h4>
+            <p>Campo aproximado: <b id="fieldValue">0.50 T</b></p>
+            <p>Dirección: <b id="directionValue">Antihorario</b></p>
+          </div>
+
+          <div class="explain-box">
+            <h4>¿Qué ocurre?</h4>
+            <p id="oerstedExplanation">
+              Al circular corriente por el conductor, se genera un campo magnético circular alrededor del cable.
+            </p>
+          </div>
+        </aside>
+
+      </div>
+    </section>
+
+    <!-- LABORATORIO 2 -->
+    <section class="lab-card" id="lab-faraday">
+      <div class="lab-title">
+        <span>2</span>
+        <h2>Inducción electromagnética</h2>
+      </div>
+
+      <div class="lab-content">
+
+        <div class="experiment-stage faraday-stage">
+
+          <div class="moving-magnet" id="movingMagnet">
+            <span>N</span>
+            <span>S</span>
+          </div>
+
+          <div class="move-arrow">↔</div>
+          <p class="move-text">Mueve el imán dentro y fuera de la bobina</p>
+
+          <div class="coil-holder left-holder"></div>
+          <div class="coil-holder right-holder"></div>
+
+          <div class="coil-real">
+            <div class="coil-turn turn1"></div>
+            <div class="coil-turn turn2"></div>
+            <div class="coil-turn turn3"></div>
+            <div class="coil-turn turn4"></div>
+            <div class="coil-turn turn5"></div>
+            <div class="coil-turn turn6"></div>
+            <div class="coil-turn turn7"></div>
+          </div>
+
+          <div class="coil-wire red-to-meter"></div>
+          <div class="coil-wire black-to-meter"></div>
+
+          <div class="galvanometer">
+            <h3>GALVANÓMETRO</h3>
+            <div class="meter-face">
+              <span class="scale-left">-10</span>
+              <span class="scale-center">0</span>
+              <span class="scale-right">+10</span>
+              <div class="g-needle" id="gNeedle"></div>
+            </div>
+            <p id="gValue">0.00 mV</p>
+            <div class="meter-terminals">
+              <span class="minus">−</span>
+              <span class="plus">+</span>
+            </div>
+          </div>
+
         </div>
 
-        <div class="data-card">
-          <h3>Datos</h3>
-          <p>Req: <b id="parallelReq">0 Ω</b></p>
-          <p>Corriente total: <b id="parallelCurrent">0 A</b></p>
-          <p>Potencia total: <b id="parallelPower">0 W</b></p>
-          <p>En paralelo: <b>1/Req = 1/R1 + 1/R2 + ...</b></p>
-        </div>
-      </section>
-    </main>
-  </section>
+        <aside class="control-panel">
+          <h3>CONTROLES</h3>
+
+          <label>Posición del imán</label>
+          <input type="range" id="magnetPosition" min="0" max="100" value="20">
+
+          <label>Velocidad</label>
+          <input type="range" id="magnetSpeed" min="1" max="10" value="5">
+          <p><b id="speedValue">5</b></p>
+
+          <button id="autoMove">Movimiento automático</button>
+          <button id="resetFaraday">Reiniciar</button>
+
+          <div class="data-box">
+            <h4>DATOS</h4>
+            <p>Voltaje inducido: <b id="inducedVoltage">0.00 mV</b></p>
+            <p>Sentido: <b id="inducedDirection">Sin corriente</b></p>
+          </div>
+
+          <div class="explain-box">
+            <h4>¿Qué ocurre?</h4>
+            <p id="faradayExplanation">
+              Al introducir o sacar el imán de la bobina cambia el flujo magnético y se induce corriente eléctrica.
+            </p>
+          </div>
+        </aside>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p><b>MagnetoLab</b> — Laboratorio Virtual de Electromagnetismo</p>
+    <p>Desarrollado por Liz Gabriela Chambi Apaza · Física III · 2026</p>
+  </footer>
+
 </div>
     <script  src="./script.js"></script>
 

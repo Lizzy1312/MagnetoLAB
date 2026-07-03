@@ -1,266 +1,208 @@
-const screens = document.querySelectorAll(".screen");
+let powerOn = true;
+let currentReversed = false;
 
-function showScreen(id) {
-  screens.forEach(s => s.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
+let autoMove = false;
+let autoDirection = 1;
+let lastMagnetPosition = 20;
+
+/* =========================
+   ELEMENTOS LAB 1
+========================= */
+
+const currentInput = document.getElementById("currentInput");
+const currentValue = document.getElementById("currentValue");
+const currentDisplay = document.getElementById("currentDisplay");
+
+const wireHeight = document.getElementById("wireHeight");
+const heightValue = document.getElementById("heightValue");
+
+const mainWire = document.getElementById("mainWire");
+const currentArrow = document.getElementById("currentArrow");
+const compassNeedle = document.getElementById("compassNeedle");
+const fieldRings = document.getElementById("fieldRings");
+
+const switchBox = document.getElementById("switchBox");
+const switchText = document.getElementById("switchText");
+
+const togglePower = document.getElementById("togglePower");
+const reverseCurrent = document.getElementById("reverseCurrent");
+
+const fieldValue = document.getElementById("fieldValue");
+const directionValue = document.getElementById("directionValue");
+const oerstedExplanation = document.getElementById("oerstedExplanation");
+
+/* =========================
+   LAB 1: OERSTED
+========================= */
+
+function updateOersted() {
+  const current = powerOn ? Number(currentInput.value) : 0;
+  const height = Number(wireHeight.value);
+
+  currentValue.textContent = `${current.toFixed(1)} A`;
+  currentDisplay.textContent = current.toFixed(1);
+
+  const topPosition = 105 + height * 1.25;
+  mainWire.style.top = `${topPosition}px`;
+  currentArrow.style.top = `${topPosition + 20}px`;
+
+  const distanceFactor = 1 - height / 120;
+  let angle = current * 16 * distanceFactor;
+
+  if (currentReversed) {
+    angle *= -1;
+  }
+
+  compassNeedle.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
+
+  currentArrow.textContent = currentReversed ? "I ←" : "I →";
+
+  fieldRings.classList.toggle("reverse", currentReversed);
+  fieldRings.style.opacity = powerOn && current > 0 ? "1" : "0.15";
+
+  const field = current * distanceFactor / 10;
+
+  fieldValue.textContent = `${field.toFixed(2)} T`;
+  directionValue.textContent = currentReversed ? "Horario" : "Antihorario";
+
+  heightValue.textContent = `${(height / 20).toFixed(1)} cm`;
+
+  if (powerOn && current > 0) {
+    switchBox.classList.remove("off");
+    switchText.textContent = "ON";
+
+    oerstedExplanation.textContent =
+      "Al circular corriente por el conductor, se genera un campo magnético circular alrededor del cable. Cuando el cable está más cerca de la brújula, la desviación de la aguja es mayor.";
+  } else {
+    switchBox.classList.add("off");
+    switchText.textContent = "OFF";
+
+    oerstedExplanation.textContent =
+      "El circuito está apagado o la corriente es cero. Sin corriente eléctrica, el conductor no genera un campo magnético apreciable.";
+  }
 }
 
-document.getElementById("startBtn").onclick = () => showScreen("menuScreen");
+currentInput.addEventListener("input", updateOersted);
+wireHeight.addEventListener("input", updateOersted);
 
-document.querySelectorAll(".openLab").forEach(btn => {
-  btn.onclick = () => showScreen(btn.dataset.target);
+togglePower.addEventListener("click", () => {
+  powerOn = !powerOn;
+  updateOersted();
 });
 
-document.querySelectorAll(".backBtn").forEach(btn => {
-  btn.onclick = () => showScreen("menuScreen");
+reverseCurrent.addEventListener("click", () => {
+  currentReversed = !currentReversed;
+  updateOersted();
 });
 
-let seriesOn = false;
-let parallelOn = false;
+/* =========================
+   ELEMENTOS LAB 2
+========================= */
 
-let seriesResistors = [10, 20, 30];
-let parallelResistors = [10, 20, 30];
+const magnetPosition = document.getElementById("magnetPosition");
+const magnetSpeed = document.getElementById("magnetSpeed");
+const movingMagnet = document.getElementById("movingMagnet");
 
-function getBrightnessPercent(current) {
-  if (current <= 0) return 0;
-  let percent = current * 70;
-  return Math.round(Math.max(8, Math.min(100, percent)));
-}
+const gNeedle = document.getElementById("gNeedle");
+const gValue = document.getElementById("gValue");
 
-function updateNeedle(id, value, maxValue) {
-  const needle = document.getElementById(id);
-  if (!needle) return;
+const speedValue = document.getElementById("speedValue");
+const inducedVoltage = document.getElementById("inducedVoltage");
+const inducedDirection = document.getElementById("inducedDirection");
+const faradayExplanation = document.getElementById("faradayExplanation");
 
-  const percent = Math.min(value / maxValue, 1);
-  const angle = -70 + percent * 140;
-  needle.style.transform = `rotate(${angle}deg)`;
-}
+const autoMoveBtn = document.getElementById("autoMove");
+const resetFaraday = document.getElementById("resetFaraday");
 
-function paintBulb(id, percent) {
-  const bulb = document.getElementById(id);
-  const box = document.getElementById(id + "Box");
-  const text = document.getElementById(id + "Text");
-  const fill = document.getElementById(id + "Fill");
+/* =========================
+   LAB 2: FARADAY
+========================= */
 
-  if (!bulb || !box || !text || !fill) return;
+function updateFaraday() {
+  const position = Number(magnetPosition.value);
+  const speed = Number(magnetSpeed.value);
 
-  if (percent > 0) {
-    bulb.classList.add("on");
-    box.style.background = `rgba(250, 204, 21, ${percent / 170})`;
-    box.style.boxShadow = `0 0 ${percent / 2}px rgba(250, 204, 21, 0.9)`;
-    text.textContent = `Brillo: ${percent}%`;
-    fill.style.width = percent + "%";
+  speedValue.textContent = speed;
+
+  movingMagnet.style.left = `${80 + position * 3.2}px`;
+
+  const change = position - lastMagnetPosition;
+  const voltage = change * speed * 0.08;
+
+  let angle = voltage * 20;
+  angle = Math.max(-65, Math.min(65, angle));
+
+  gNeedle.style.transform = `rotate(${angle}deg)`;
+
+  gValue.textContent = `${voltage.toFixed(2)} mV`;
+  inducedVoltage.textContent = `${voltage.toFixed(2)} mV`;
+
+  if (Math.abs(voltage) < 0.05) {
+    inducedDirection.textContent = "Sin corriente";
+
+    faradayExplanation.textContent =
+      "Cuando el imán está quieto o se mueve muy poco, el flujo magnético casi no cambia. Por eso el galvanómetro vuelve a cero.";
+  } else if (voltage > 0) {
+    inducedDirection.textContent = "Hacia un sentido";
+
+    faradayExplanation.textContent =
+      "Al introducir el imán en la bobina, cambia el flujo magnético y se induce corriente eléctrica. La aguja del galvanómetro se desvía hacia un lado.";
   } else {
-    bulb.classList.remove("on");
-    box.style.background = "rgba(2,6,23,0.9)";
-    box.style.boxShadow = "none";
-    text.textContent = "Brillo: 0%";
-    fill.style.width = "0%";
-  }
-}
+    inducedDirection.textContent = "Sentido contrario";
 
-function paintSeriesBulb(percent) {
-  const bulb = document.getElementById("seriesBulb");
-  const box = document.getElementById("seriesBulbBox");
-  const text = document.getElementById("seriesBrightness");
-  const fill = document.getElementById("seriesFill");
-
-  if (percent > 0) {
-    bulb.classList.add("on");
-    box.style.background = `rgba(250, 204, 21, ${percent / 170})`;
-    box.style.boxShadow = `0 0 ${percent / 2}px rgba(250, 204, 21, 0.9)`;
-    text.textContent = `Brillo: ${percent}%`;
-    fill.style.width = percent + "%";
-  } else {
-    bulb.classList.remove("on");
-    box.style.background = "rgba(2,6,23,0.9)";
-    box.style.boxShadow = "none";
-    text.textContent = "Brillo: 0%";
-    fill.style.width = "0%";
-  }
-}
-
-function createResistor(label, value, index, type) {
-  return `
-    <div class="resistor">
-      <div class="res-wire"></div>
-
-      <div class="resistor-symbol">/\/\/\\</div>
-
-      <div class="resistor-label">
-        ${label} =
-        <input
-          class="resistor-input"
-          type="number"
-          min="1"
-          value="${value}"
-          onchange="changeResistance('${type}', ${index}, this.value)"
-        > Ω
-      </div>
-
-      <div class="res-wire"></div>
-    </div>
-  `;
-}
-
-function changeResistance(type, index, value) {
-  const newValue = Math.max(1, Number(value));
-
-  if (type === "series") {
-    seriesResistors[index] = newValue;
-    renderSeries();
+    faradayExplanation.textContent =
+      "Al sacar el imán de la bobina, el cambio del flujo magnético es opuesto. Por eso la aguja del galvanómetro se desvía hacia el lado contrario.";
   }
 
-  if (type === "parallel") {
-    parallelResistors[index] = newValue;
-    renderParallel();
-  }
+  lastMagnetPosition = position;
 }
 
-/* SERIE */
+magnetPosition.addEventListener("input", updateFaraday);
+magnetSpeed.addEventListener("input", updateFaraday);
 
-function renderSeries() {
-  const container = document.getElementById("seriesComponents");
-  container.innerHTML = "";
+autoMoveBtn.addEventListener("click", () => {
+  autoMove = !autoMove;
+  autoMoveBtn.textContent = autoMove ? "Detener movimiento" : "Movimiento automático";
+});
 
-  seriesResistors.forEach((r, i) => {
-    container.innerHTML += createResistor(`R${i + 1}`, r, i, "series");
-  });
+resetFaraday.addEventListener("click", () => {
+  autoMove = false;
+  autoMoveBtn.textContent = "Movimiento automático";
 
-  updateSeries();
-}
+  magnetPosition.value = 20;
+  lastMagnetPosition = 20;
 
-function updateSeries() {
-  const voltage = Number(document.getElementById("seriesVoltage").value);
+  updateFaraday();
+});
 
-  const req = seriesResistors.reduce((sum, r) => sum + r, 0);
-  const current = seriesOn && req > 0 ? voltage / req : 0;
-  const power = seriesOn ? voltage * current : 0;
+function animateFaraday() {
+  if (autoMove) {
+    let position = Number(magnetPosition.value);
+    const speed = Number(magnetSpeed.value);
 
-  document.getElementById("seriesReq").textContent = req.toFixed(2) + " Ω";
-  document.getElementById("seriesCurrent").textContent = current.toFixed(3) + " A";
-  document.getElementById("seriesPower").textContent = power.toFixed(2) + " W";
+    position += autoDirection * speed * 0.25;
 
-  document.getElementById("seriesAmpText").textContent = current.toFixed(3) + " A";
-  document.getElementById("seriesVoltText").textContent = seriesOn
-    ? voltage.toFixed(2) + " V"
-    : "0.00 V";
+    if (position >= 100) {
+      position = 100;
+      autoDirection = -1;
+    }
 
-  updateNeedle("seriesAmpNeedle", current, 2);
-  updateNeedle("seriesVoltNeedle", seriesOn ? voltage : 0, 24);
+    if (position <= 0) {
+      position = 0;
+      autoDirection = 1;
+    }
 
-  paintSeriesBulb(getBrightnessPercent(current));
-
-  const sw = document.getElementById("seriesSwitch");
-  sw.textContent = seriesOn ? "ON" : "OFF";
-  sw.classList.toggle("on", seriesOn);
-}
-
-document.getElementById("addSeries").onclick = () => {
-  const value = Number(document.getElementById("seriesNewValue").value);
-  if (value > 0) {
-    seriesResistors.push(value);
-    renderSeries();
-  }
-};
-
-document.getElementById("clearSeries").onclick = () => {
-  seriesResistors = [];
-  seriesOn = false;
-  renderSeries();
-};
-
-document.getElementById("seriesSwitch").onclick = () => {
-  seriesOn = !seriesOn;
-  updateSeries();
-};
-
-document.getElementById("seriesVoltage").oninput = updateSeries;
-
-/* PARALELO */
-
-function renderParallel() {
-  const container = document.getElementById("parallelBranches");
-  container.innerHTML = "";
-
-  parallelResistors.forEach((r, i) => {
-    container.innerHTML += `
-      <div class="branch">
-        <div class="branch-wire"></div>
-
-        ${createResistor(`R${i + 1}`, r, i, "parallel")}
-
-        <div class="bulb-box" id="pBulb${i}Box">
-          <div class="bulb" id="pBulb${i}">💡</div>
-          <div class="brightness-text" id="pBulb${i}Text">Brillo: 0%</div>
-          <div class="brightness-bar">
-            <div class="brightness-fill" id="pBulb${i}Fill"></div>
-          </div>
-        </div>
-      </div>
-    `;
-  });
-
-  updateParallel();
-}
-
-function updateParallel() {
-  const voltage = Number(document.getElementById("parallelVoltage").value);
-
-  let req = 0;
-
-  if (parallelResistors.length > 0) {
-    const reciprocal = parallelResistors.reduce((sum, r) => sum + 1 / r, 0);
-    req = 1 / reciprocal;
+    magnetPosition.value = position;
+    updateFaraday();
   }
 
-  const totalCurrent = parallelOn && req > 0 ? voltage / req : 0;
-  const totalPower = parallelOn ? voltage * totalCurrent : 0;
-
-  document.getElementById("parallelReq").textContent = req.toFixed(2) + " Ω";
-  document.getElementById("parallelCurrent").textContent = totalCurrent.toFixed(3) + " A";
-  document.getElementById("parallelPower").textContent = totalPower.toFixed(2) + " W";
-
-  document.getElementById("parallelAmpText").textContent = totalCurrent.toFixed(3) + " A";
-  document.getElementById("parallelVoltText").textContent = parallelOn
-    ? voltage.toFixed(2) + " V"
-    : "0.00 V";
-
-  updateNeedle("parallelAmpNeedle", totalCurrent, 4);
-  updateNeedle("parallelVoltNeedle", parallelOn ? voltage : 0, 24);
-
-  parallelResistors.forEach((r, i) => {
-    const branchCurrent = parallelOn ? voltage / r : 0;
-    paintBulb("pBulb" + i, getBrightnessPercent(branchCurrent));
-  });
-
-  const sw = document.getElementById("parallelSwitch");
-  sw.textContent = parallelOn ? "ON" : "OFF";
-  sw.classList.toggle("on", parallelOn);
+  requestAnimationFrame(animateFaraday);
 }
 
-document.getElementById("addParallel").onclick = () => {
-  const value = Number(document.getElementById("parallelNewValue").value);
-  if (value > 0) {
-    parallelResistors.push(value);
-    renderParallel();
-  }
-};
+/* =========================
+   INICIO
+========================= */
 
-document.getElementById("clearParallel").onclick = () => {
-  parallelResistors = [];
-  parallelOn = false;
-  renderParallel();
-};
-
-document.getElementById("parallelSwitch").onclick = () => {
-  parallelOn = !parallelOn;
-  updateParallel();
-};
-
-document.getElementById("parallelVoltage").oninput = updateParallel;
-
-/* INICIO */
-
-renderSeries();
-renderParallel();
+updateOersted();
+updateFaraday();
+animateFaraday();
