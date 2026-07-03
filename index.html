@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    <link rel="stylesheet" href="./style.css">
+
+  </head>
+    
+  <body>
+  <div class="app">
+  <section class="screen active" id="coverScreen">
+    <div class="brand-row">
+      <div class="fake-logo">UNA</div>
+      <div class="brand-title">⚡ ElectroLab ⚡</div>
+      <div class="fake-logo">MFCI</div>
+    </div>
+
+    <div class="cover">
+      <div class="glass-card">
+        <h1>ElectroLab</h1>
+        <p>Laboratorio Virtual de Circuitos Eléctricos</p>
+
+        <div class="institution">
+          <p>Universidad Nacional del Altiplano – Puno</p>
+          <p>Facultad de Ciencias de la Educación</p>
+          <p>Escuela Profesional de Educación Secundaria</p>
+          <p>Especialidad: Matemática, Física, Computación e Informática</p>
+        </div>
+
+        <h2>Desarrollado por:</h2>
+        <h3>Liz Gabriela Chambi Apaza</h3>
+        <p>Curso: Física III</p>
+
+        <button id="startBtn">⚡ Ingresar al laboratorio</button>
+      </div>
+
+      <div class="helper">
+        <div class="scientist">👩🏻‍🔬</div>
+        <div class="bubble">¡Hola! Observa, modifica y compara circuitos en serie y paralelo.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="screen" id="menuScreen">
+    <header>
+      <h1>⚡ ElectroLab</h1>
+      <p>Selecciona el laboratorio que deseas explorar</p>
+    </header>
+
+    <div class="menu-cards">
+      <div class="menu-card blue">
+        <h2>Circuito en Serie</h2>
+        <p>Un solo camino para la corriente.</p>
+        <div class="mini">🔋 ─ R1 ─ R2 ─ 💡</div>
+        <button class="openLab" data-target="seriesScreen">Entrar</button>
+      </div>
+
+      <div class="menu-card green">
+        <h2>Circuito en Paralelo</h2>
+        <p>Varios caminos para la corriente.</p>
+        <div class="mini">🔋 ┬ R1💡<br> ├ R2💡<br> └ R3💡</div>
+        <button class="openLab" data-target="parallelScreen">Entrar</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="screen" id="seriesScreen">
+    <div class="topbar">
+      <button class="backBtn">← Volver</button>
+      <h1>Laboratorio: Circuito en Serie</h1>
+    </div>
+
+    <main class="lab-grid">
+      <section class="circuit-panel">
+        <div class="circuit series-circuit">
+          <div class="battery">🔋</div>
+          <div class="wire rectangle"></div>
+          <div id="seriesComponents" class="series-components"></div>
+          <div class="bulb-box" id="seriesBulbBox">
+            <div class="bulb" id="seriesBulb">💡</div>
+            <div id="seriesBrightness" class="brightness-text">Brillo: 0%</div>
+            <div class="brightness-bar"><div id="seriesFill" class="brightness-fill"></div></div>
+          </div>
+          <button class="switch" id="seriesSwitch">OFF</button>
+        </div>
+      </section>
+
+      <aside class="controls-panel">
+        <h2>Controles</h2>
+        <label>Voltaje</label>
+        <input type="number" id="seriesVoltage" value="18" min="1">
+        <label>Nueva resistencia Ω</label>
+        <input type="number" id="seriesNewValue" value="10" min="1">
+        <button id="addSeries">+ Agregar resistencia</button>
+        <button id="clearSeries">Limpiar circuito</button>
+      </aside>
+
+      <section class="meters-panel">
+        <div class="meter-card">
+          <h3>Amperímetro</h3>
+          <div class="gauge"><div class="needle" id="seriesAmpNeedle"></div><span>A</span></div>
+          <p id="seriesAmpText">0.000 A</p>
+        </div>
+
+        <div class="meter-card">
+          <h3>Voltímetro</h3>
+          <div class="gauge"><div class="needle" id="seriesVoltNeedle"></div><span>V</span></div>
+          <p id="seriesVoltText">0.00 V</p>
+        </div>
+
+        <div class="data-card">
+          <h3>Datos</h3>
+          <p>Req: <b id="seriesReq">0 Ω</b></p>
+          <p>Corriente: <b id="seriesCurrent">0 A</b></p>
+          <p>Potencia: <b id="seriesPower">0 W</b></p>
+          <p>En serie: <b>Req = R1 + R2 + ...</b></p>
+        </div>
+      </section>
+    </main>
+  </section>
+
+  <section class="screen" id="parallelScreen">
+    <div class="topbar">
+      <button class="backBtn">← Volver</button>
+      <h1>Laboratorio: Circuito en Paralelo</h1>
+    </div>
+
+    <main class="lab-grid">
+      <section class="circuit-panel">
+        <div class="circuit parallel-circuit">
+          <div class="battery">🔋</div>
+          <div class="rail left"></div>
+          <div class="rail right"></div>
+          <div id="parallelBranches" class="parallel-branches"></div>
+          <button class="switch" id="parallelSwitch">OFF</button>
+        </div>
+      </section>
+
+      <aside class="controls-panel">
+        <h2>Controles</h2>
+        <label>Voltaje</label>
+        <input type="number" id="parallelVoltage" value="18" min="1">
+        <label>Nueva rama Ω</label>
+        <input type="number" id="parallelNewValue" value="10" min="1">
+        <button id="addParallel">+ Agregar rama</button>
+        <button id="clearParallel">Limpiar ramas</button>
+      </aside>
+
+      <section class="meters-panel">
+        <div class="meter-card">
+          <h3>Amperímetro total</h3>
+          <div class="gauge"><div class="needle" id="parallelAmpNeedle"></div><span>A</span></div>
+          <p id="parallelAmpText">0.000 A</p>
+        </div>
+
+        <div class="meter-card">
+          <h3>Voltímetro</h3>
+          <div class="gauge"><div class="needle" id="parallelVoltNeedle"></div><span>V</span></div>
+          <p id="parallelVoltText">0.00 V</p>
+        </div>
+
+        <div class="data-card">
+          <h3>Datos</h3>
+          <p>Req: <b id="parallelReq">0 Ω</b></p>
+          <p>Corriente total: <b id="parallelCurrent">0 A</b></p>
+          <p>Potencia total: <b id="parallelPower">0 W</b></p>
+          <p>En paralelo: <b>1/Req = 1/R1 + 1/R2 + ...</b></p>
+        </div>
+      </section>
+    </main>
+  </section>
+</div>
+    <script  src="./script.js"></script>
+
+  </body>
+  
+</html>

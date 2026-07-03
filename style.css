@@ -1,0 +1,67 @@
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",Arial,sans-serif;background:radial-gradient(circle at top,#1e3a8a,#020617 70%);color:white}
+.app{max-width:1400px;margin:auto;padding:18px}
+.screen{display:none}.screen.active{display:block;animation:fade .35s}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1}}
+
+.brand-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.brand-title{font-size:42px;font-weight:900;color:#facc15}
+.fake-logo{width:82px;height:82px;border-radius:50%;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;border:2px solid #38bdf8;font-weight:bold;color:#93c5fd}
+
+.cover{min-height:84vh;display:grid;grid-template-columns:1fr .8fr;gap:24px;align-items:center}
+.glass-card,.helper,.menu-card,.circuit-panel,.controls-panel,.meters-panel{background:rgba(255,255,255,.13);border-radius:28px;padding:24px;box-shadow:0 18px 40px rgba(0,0,0,.35);border:1px solid rgba(147,197,253,.25)}
+.glass-card h1{font-size:64px;color:#facc15;margin:0}
+.glass-card>p{font-size:22px;color:#dbeafe}
+.institution{background:rgba(15,23,42,.8);border:1px solid rgba(56,189,248,.5);border-radius:20px;padding:18px;margin:20px 0}
+.institution p{margin:8px 0}
+.glass-card h2{color:#93c5fd}.glass-card h3{font-size:30px;margin:5px 0;color:white}
+button{border:none;border-radius:14px;padding:12px 18px;font-weight:bold;cursor:pointer;color:white;background:linear-gradient(135deg,#2563eb,#1d4ed8);box-shadow:0 0 18px rgba(37,99,235,.65);transition:.2s}
+button:hover{transform:scale(1.04)}
+#startBtn{font-size:18px;margin-top:15px}
+
+.helper{text-align:center}.scientist{font-size:150px;animation:float 2s infinite ease-in-out}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.bubble{background:white;color:#111827;padding:18px;border-radius:22px;font-weight:bold}
+
+header{text-align:center;margin-bottom:24px}header h1{font-size:56px;color:#facc15;margin:0}
+.menu-cards{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.menu-card{text-align:center;min-height:330px}.menu-card.blue{border:2px solid #38bdf8}.menu-card.green{border:2px solid #22c55e}
+.menu-card h2{color:#facc15}.mini{background:rgba(15,23,42,.75);padding:20px;border-radius:18px;font-size:25px;margin:18px 0}
+
+.topbar{display:flex;align-items:center;gap:18px;margin-bottom:18px}.topbar h1{flex:1;text-align:center;margin:0;padding:16px;background:rgba(255,255,255,.12);border-radius:20px;color:#facc15}
+.lab-grid{display:grid;grid-template-columns:1fr 280px;gap:18px}
+.circuit{position:relative;min-height:430px;background:#020617;border-radius:26px;overflow:hidden;border:3px solid rgba(56,189,248,.7);box-shadow:inset 0 0 30px rgba(56,189,248,.18)}
+.circuit:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(56,189,248,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,.07) 1px,transparent 1px);background-size:34px 34px}
+.battery{position:absolute;left:35px;top:178px;font-size:70px;z-index:10}
+.switch{position:absolute;left:50%;bottom:35px;transform:translateX(-50%);background:#ef4444;z-index:20}.switch:hover{transform:translateX(-50%) scale(1.04)}.switch.on{background:#22c55e;box-shadow:0 0 22px rgba(34,197,94,.8)}
+
+.rectangle{position:absolute;left:95px;right:95px;top:205px;height:145px;border:8px solid #cbd5e1;border-radius:22px;z-index:2}
+.series-components{position:absolute;left:165px;right:185px;top:165px;height:90px;display:flex;align-items:center;gap:18px;overflow-x:auto;z-index:8}
+.series-bulb-box{position:absolute;right:32px;top:145px;z-index:9}
+
+.rail{position:absolute;top:82px;bottom:95px;width:8px;background:#cbd5e1;border-radius:999px;z-index:2}.rail.left{left:130px}.rail.right{right:95px}
+.parallel-branches{position:absolute;left:130px;right:95px;top:80px;bottom:90px;display:flex;flex-direction:column;justify-content:center;gap:18px;overflow-y:auto;z-index:8}
+.branch{position:relative;min-height:72px;display:grid;grid-template-columns:1fr 100px;align-items:center;gap:12px}
+.branch-wire{position:absolute;left:0;right:0;top:50%;height:8px;background:#cbd5e1;border-radius:999px;z-index:1}
+.branch .resistor,.branch .bulb-box{z-index:5}
+
+.resistor{display:flex;align-items:center;justify-content:center;gap:6px;min-width:175px}
+.res-wire{width:24px;height:6px;background:#cbd5e1;border-radius:999px}
+.resistor-symbol{color:#fb923c;font-size:32px;font-weight:bold;text-shadow:0 0 15px rgba(251,146,60,.95);background:#020617;padding:2px 6px;border-radius:10px}
+.resistor-label{color:white;font-weight:bold;background:rgba(15,23,42,.9);border-radius:10px;padding:4px 7px}
+.resistor-input{width:62px;border:none;border-radius:8px;padding:5px;text-align:center;font-weight:bold;margin-left:5px}
+
+.bulb-box{text-align:center;border-radius:18px;padding:8px;transition:.25s;background:rgba(2,6,23,.9)}
+.bulb{font-size:54px;opacity:.25;transition:.25s}.bulb.on{opacity:1;transform:scale(1.08)}
+.brightness-text{color:#facc15;font-size:13px;font-weight:bold}.brightness-bar{width:90px;height:10px;margin:6px auto 0;background:#334155;border-radius:999px;overflow:hidden}.brightness-fill{height:100%;width:0;background:linear-gradient(90deg,#fde047,#fb923c);transition:.25s}
+
+.controls-panel{background:rgba(15,23,42,.9)}.controls-panel h2{color:#facc15;margin-top:0}.controls-panel label{font-weight:bold;display:block;margin-top:12px}.controls-panel input{width:100%;border:none;border-radius:12px;padding:10px;margin:8px 0 12px;font-weight:bold;text-align:center}.controls-panel button{width:100%;margin-bottom:10px}#addSeries,#addParallel{background:linear-gradient(135deg,#22c55e,#15803d)}#clearSeries,#clearParallel{background:linear-gradient(135deg,#ef4444,#991b1b)}
+
+.meters-panel{grid-column:1/3;display:grid;grid-template-columns:210px 210px 1fr;gap:18px}
+.meter-card,.data-card{background:rgba(15,23,42,.9);border-radius:22px;padding:16px;border:2px solid rgba(56,189,248,.55);text-align:center}.data-card{text-align:left}.data-card b{color:#facc15}
+.gauge{width:160px;height:90px;margin:auto;background:#f8fafc;border-radius:160px 160px 20px 20px;border:6px solid #1e293b;position:relative;overflow:hidden}
+.gauge:before{content:"0     50     100";color:#111827;position:absolute;top:18px;left:24px;font-size:12px}
+.needle{width:4px;height:62px;background:#ef4444;position:absolute;bottom:0;left:50%;transform-origin:bottom center;transform:rotate(-70deg);transition:.3s}
+.gauge span{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);color:#111827;font-weight:bold}.meter-card p{font-size:22px;color:#facc15;font-weight:bold}
+
+@media(max-width:950px){.cover,.menu-cards,.lab-grid,.meters-panel{grid-template-columns:1fr}.meters-panel{grid-column:1}}
